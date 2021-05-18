@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,18 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['adminLoginCheck'])->group(function () {
         //后台中心首页
         Route::get('index', [IndexController::class, 'index'])->name('admin.index');
+    });
+
+    //管理员管理模块
+    Route::prefix('adminuser')->group(function () {
+        //列表
+        Route::get('/', [AdminUserController::class, 'index'])->name('admin.adminuser');
+        //添加/编辑
+        Route::get('add/{adminuser?}', [AdminUserController::class, 'add'])->name('admin.adminuser.add');
+        Route::post('add/{adminuser?}', [AdminUserController::class, 'save'])->name('admin.adminuser.add');
+        //软删除
+        Route::get('remove/{adminuser}', [AdminUserController::class, 'remove'])->name('admin.adminuser.remove');
+        //状态切换
+        Route::get('state/{adminuser}', [AdminUserController::class, 'state'])->name('admin.adminuser.state');
     });
 });
