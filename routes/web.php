@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,5 +46,11 @@ Route::prefix('admin')->group(function () {
         Route::get('remove/{adminuser}', [AdminUserController::class, 'remove'])->name('admin.adminuser.remove');
         //状态切换
         Route::get('state/{adminuser}', [AdminUserController::class, 'state'])->name('admin.adminuser.state');
+    });
+
+    //系统设置模块
+    Route::prefix('setting')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('admin.setting');
+        Route::post('/', [SettingController::class, 'save'])->name('admin.setting');
     });
 });
